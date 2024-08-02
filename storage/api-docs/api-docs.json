@@ -1,0 +1,89 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "URL Shortener API",
+        "version": "1.0"
+    },
+    "paths": {
+        "/api/shorten": {
+            "post": {
+                "tags": [
+                    "URLs"
+                ],
+                "summary": "Acortar una URL",
+                "operationId": "shortenUrl",
+                "requestBody": {
+                    "description": "URL a ser acortada",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "original_url": {
+                                        "type": "string",
+                                        "example": "https://example.com"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "URL acortada creada con éxito",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "shortened_url": {
+                                            "type": "string",
+                                            "example": "http://localhost/abc12345"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Error de validación"
+                    }
+                }
+            }
+        },
+        "/{shortened_url}": {
+            "get": {
+                "tags": [
+                    "URLs"
+                ],
+                "summary": "Redirigir a la URL original usando la URL acortada",
+                "operationId": "redirectUrl",
+                "parameters": [
+                    {
+                        "name": "shortened_url",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "302": {
+                        "description": "Redirección a la URL original"
+                    },
+                    "404": {
+                        "description": "URL no encontrada"
+                    }
+                }
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "URLs",
+            "description": "URLs"
+        }
+    ]
+}
