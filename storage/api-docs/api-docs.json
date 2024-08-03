@@ -5,6 +5,54 @@
         "version": "1.0"
     },
     "paths": {
+        "/api/shortens": {
+            "get": {
+                "tags": [
+                    "URLs"
+                ],
+                "summary": "Listas de URLs",
+                "operationId": "getURLs",
+                "responses": {
+                    "200": {
+                        "description": "Lista de posts",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer",
+                                                "example": 1
+                                            },
+                                            "original_url": {
+                                                "type": "string",
+                                                "example": "https://www.rfc-editor.org/rfc/Cgt0se5N"
+                                            },
+                                            "shortened_url": {
+                                                "type": "string",
+                                                "example": "3b0EPqNK"
+                                            },
+                                            "created_at": {
+                                                "type": "string",
+                                                "format": "date-time",
+                                                "example": "2024-08-01T12:34:56Z"
+                                            },
+                                            "updated_at": {
+                                                "type": "string",
+                                                "format": "date-time",
+                                                "example": "2024-08-01T12:34:56Z"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/shorten": {
             "post": {
                 "tags": [
@@ -21,7 +69,7 @@
                                 "properties": {
                                     "original_url": {
                                         "type": "string",
-                                        "example": "https://example.com"
+                                        "example": "https://www.rfc-editor.org/rfc/rfc1738"
                                     }
                                 },
                                 "type": "object"
@@ -38,7 +86,7 @@
                                     "properties": {
                                         "shortened_url": {
                                             "type": "string",
-                                            "example": "http://localhost/abc12345"
+                                            "example": "http://127.0.0.1:8001/b1wyI9He"
                                         }
                                     },
                                     "type": "object"
@@ -72,6 +120,33 @@
                 "responses": {
                     "302": {
                         "description": "Redirección a la URL original"
+                    },
+                    "404": {
+                        "description": "URL no encontrada"
+                    }
+                }
+            }
+        },
+        "/api/delete/{id}": {
+            "delete": {
+                "tags": [
+                    "URLs"
+                ],
+                "summary": "Eliminar URL",
+                "operationId": "EliminarUrl",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "number"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "URL eliminada exitosamente"
                     },
                     "404": {
                         "description": "URL no encontrada"
